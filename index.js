@@ -70,8 +70,10 @@ function adding() {
         }
     ])
     .then((answer) => {
-        switch (answer.viewAdd) {
-            case 'Department':
+        let text = answer.viewAdd;
+        let userAnswer = text.toLowerCase();
+        switch (userAnswer) {
+            case 'department':
                 inquirer.prompt([
                     {
                         name: 'depAdd',
@@ -82,7 +84,7 @@ function adding() {
                     db.query('INSERT INTO department (dep_name) VALUES (?)', response.depAdd);
                 });
                 break;
-            case 'Role':
+            case 'role':
                 inquirer.prompt([
                     {
                         name: 'roleTitle',
@@ -101,10 +103,12 @@ function adding() {
                     },
                 ])
                 .then((response) => {
-                    db.query('INSERT INTO role (title, salary, dep_id) VALUES (?, ?, ?)', response.roleTitle, response.roleSalary, response.roleDep);
+                    db.query('INSERT INTO role (title, salary, dep_id) VALUES (?, ?, ?)', response.roleTitle, response.roleSalary, response.roleDep, (err, response) => {
+                        console.log(response);
+                    });
                 });
                 break;
-            case 'Employee':
+            case 'employee':
                 inquirer.prompt([
                     {
                         name: 'firstName',
@@ -128,7 +132,78 @@ function adding() {
                     },
                 ])
                 .then((answers) => {
-                    db.query('INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)', answers.firstName, answers.lastName, answers.roleId, answers.managerId);
+                    db.query('INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)', answers.firstName, answers.lastName, answers.roleId, answers.managerId, (err, response) => {
+                        console.log(response);
+                    });
+                });
+                break;
+            default:
+                break;
+        };
+        init();
+    });
+};
+
+function deleting() {
+    inquirer.prompt([
+    {
+        name: 'viewDelete',
+        type: 'select',
+        message: 'What would you like to delete?',
+        choices: [
+            'Department',
+            'Role',
+            'Employee'
+        ],
+    }
+    ])
+    .then((answer) => {
+        let text = answer.viewDelete;
+        let userAnswer = text.toLowerCase();
+        switch (userAnswer) {
+            case 'department':
+                inquirer.prompt([
+                    {
+                        name: 'depDelete',
+                        type: 'input',
+                        message: 'Enter the ID of the department to delete.'
+                    }
+                ])
+                .then((response) => {
+                    let deletedDepartment = response;
+                    db.query('DELETE FROM department WHERE id = ?', deletedDepartment, (err, result) => {
+                        console.log("Deleted " + deletedDepartment);
+                    });
+                });
+                break;
+            case 'role':
+                inquirer.prompt([
+                    {
+                        name: 'roleDelete',
+                        type: 'input',
+                        message: 'Enter the ID of the role to delete.'
+                    }
+                ])
+                .then((response) => {
+                    let deletedRole = response;
+                    db.query('DELETE FROM role WHERE id = ?', deletedRole, (err, result) => {
+                        console.log("Deleted " + deletedRole);
+                    });
+                });
+                break;
+            case 'employee':
+                inquirer.prompt([
+                    {
+                        name: 'empDelete',
+                        type: 'input',
+                        message: 'Enter the ID of the employee to delete.'
+                    }
+                ])
+                .then((response) => {
+                    let deletedEmp = response;
+                    db.query('DELETE FROM employee WHERE id = ?', deletedEmp, (err, result) => {
+                        console.log("Deleted " + deletedEmp);
+                    });
                 });
                 break;
             default:
@@ -136,10 +211,6 @@ function adding() {
         }
         init();
     });
-};
-
-function deleting() {
-    
 };
 
 function budgeting() {
