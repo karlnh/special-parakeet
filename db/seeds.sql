@@ -9,15 +9,21 @@ VALUES  ("sales"),
 -- Roles
 
 INSERT INTO role (title, salary, dep_id)
-VALUES  ("sales manager", 20.5, 1),
-        ("salesperson", 2.0, 1),
-        ("lead engineer", 40.5, 2),
-        ("measly engineer", 20.0, 2),
-        ("big shot account manager", 100.0, 3),
-        ("accountant", 15.0, 3),
-        ("lawyer", 500.0, 4),
-        ("professor of law", 3.0, 4);
+VALUES  ("director of sales", 500000, 1),
+        ("sales representative", 50000, 1),
+        ("engineering manager", 70000, 2),
+        ("junior engineer", 30000, 2),
+        ("chief financial officer", 1000000, 3),
+        ("payroll clerk", 50000, 3),
+        ("chief compliance officer", 800000, 4),
+        ("legal secretary", 60000, 4);
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUES  ("test", "subject", 4, 1),
-        ("tom", "hanks", 1, 1);
+VALUES  ("charlotte", "roberts", 1, null),
+        ("zarif", "toma", 2, 1),
+        ("darcy", "sweet", 3, null),
+        ("bianca", "lima", 4, 3),
+        ("bilqiz", "masaev", 5, null),
+        ("tena", "varga", 6, 5),
+        ("aman", "asmara", 7, null),
+        ("anna", "kawai", 8, 7);
