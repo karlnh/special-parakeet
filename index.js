@@ -32,20 +32,20 @@ function viewing() {
                 db.query('SELECT * FROM department', (err, results) => {
                     err
                     ? console.log(err)
-                    : console.table(results);
+                    : console.table('\n', results);
                 });
                 break;
             case 'View all roles':
                 db.query('SELECT * FROM role', (err, results) => {
                     err
                     ? console.log(err)
-                    : console.table(results);
+                    : console.table('\n', results);
                 });
             case 'View all employees':
                 db.query('SELECT * FROM employee', (err, results) => {
                     err
                     ? console.log(err)
-                    : console.table(results);
+                    : console.table('\n', results);
                 });
                 break;
             default:
@@ -143,7 +143,12 @@ function deleting() {
 };
 
 function budgeting() {
-    
+    db.query('SELECT SUM(salary) AS total_budget FROM employee JOIN role ON employee.role_id = role.id;', (err, result) => {
+        console.log('\n');
+        console.table(result);
+    });
+    // figuring this out was the worst thing ever.
+    init();
 };
 
 function init() {
@@ -163,6 +168,8 @@ function init() {
                 break;
             case 'Calculate department budget':
                 budgeting();
+                break;
+            case 'Exit':
                 break;
             default:
                 break;
